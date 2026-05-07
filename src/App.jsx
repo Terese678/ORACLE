@@ -30,6 +30,8 @@ import RiskMeter, { calculateRiskScore } from './features/RiskMeter'
 // triggerEveningDebrief = fires the evening ORACLE debrief message
 import CheckInBanner, { useCheckinTimer, triggerCheckin, triggerEveningDebrief, EveningBanner } from './features/CheckIn'
 
+import Onboarding from './features/Onboarding'
+
 export default function App() {
 
   // ---- Core state ---------------------------------------------
@@ -79,6 +81,12 @@ export default function App() {
   // True once the morning briefing has been delivered
   // This is what starts the 3-hour check-in countdown
   const [scanComplete, setScanComplete] = useState(false)
+
+  // True once the user has completed the onboarding screen
+  const [onboardingDone, setOnboardingDone] = useState(false)
+
+  // The name the user entered during onboarding - used to personalise ORACLE
+  const [userName, setUserName] = useState('')
 
   // A ref attached to an invisible div at the bottom of messages
   // We scroll this into view every time a new message arrives
@@ -174,6 +182,16 @@ export default function App() {
       .replace(/\n/g, '<br/>')
 
   // ------ RENDER --------------------------------------------
+  if (!onboardingDone) {
+    return (
+      <Onboarding
+        onComplete={(name) => {
+          setUserName(name)
+          setOnboardingDone(true)
+        }}
+      />
+    )
+  }
   return (
     // oracle-container is the original CSS class - unchanged
     <div className="oracle-container">

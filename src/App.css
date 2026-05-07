@@ -305,7 +305,7 @@ body {
 
 .checkin-dismiss:hover { color: #888; }
 
-/* Risk meter — vertical bar fixed to the right edge */
+/* Risk meter - vertical bar fixed to the right edge */
 .risk-meter {
   position: fixed;
   right: 18px;
@@ -347,7 +347,7 @@ body {
   font-size: 0.6rem;
 }
 
-/* MEM button — rotated vertically on the left edge */
+/* MEM button - rotated vertically on the left edge */
 .mem-toggle {
   position: fixed;
   left: -18px;
@@ -370,7 +370,7 @@ body {
 
 .mem-toggle:hover { background: #00ffcc11; }
 
-/* Memory panel — slides in from the left */
+/* Memory panel - slides in from the left */
 .mem-panel {
   position: fixed;
   left: 0;
@@ -421,7 +421,7 @@ body {
   margin-top: 2px;
 }
 
-/* Evening debrief banner — purple to distinguish from amber midday */
+/* Evening debrief banner - purple to distinguish from amber midday */
 .evening-banner {
     display: flex;
     align-items: center;
@@ -465,3 +465,131 @@ body {
 
 /* Purple badge under evening debrief messages */
 .debrief-tag { color: #8b5cf6; }
+
+/* ================================
+   ONBOARDING SCREEN
+   The first thing a user sees
+================================ */
+
+/* Full screen black overlay */
+.onboarding {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 40px;
+  transition: opacity 1s ease;
+}
+
+/* Fade out animation when entering ORACLE */
+.onboarding.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Container for the typing lines */
+.intro-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* Each individual line as it appears */
+.intro-line {
+  font-family: 'Courier New', monospace;
+  font-size: 1.1rem;
+  color: #00ffcc;
+  letter-spacing: 0.1rem;
+  animation: fadeInLine 0.8s ease forwards;
+}
+
+/* First line - ORACLE title — bigger */
+.intro-line:first-child {
+  font-size: 1.8rem;
+  font-weight: 900;
+  letter-spacing: 0.5rem;
+  text-shadow: 0 0 30px #00ffcc88;
+}
+
+/* Fade in animation for each line */
+@keyframes fadeInLine {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* "What shall I call you?" prompt */
+.name-prompt {
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  color: #888;
+  text-align: center;
+  margin-bottom: 16px;
+  letter-spacing: 0.15rem;
+}
+
+/* Name input field */
+.name-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #00ffcc55;
+  color: #00ffcc;
+  font-family: 'Courier New', monospace;
+  font-size: 1.2rem;
+  letter-spacing: 0.2rem;
+  padding: 8px 0;
+  text-align: center;
+  width: 300px;
+  outline: none;
+  display: block;
+  margin: 0 auto 24px;
+}
+
+.name-input::placeholder { color: #333; }
+
+.name-input:focus {
+  border-bottom-color: #00ffcc;
+}
+
+/* ENTER ORACLE button */
+.enter-btn {
+  background: transparent;
+  border: 1px solid #00ffcc55;
+  border-radius: 4px;
+  color: #00ffcc;
+  cursor: pointer;
+  display: block;
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.3rem;
+  margin: 0 auto;
+  padding: 12px 32px;
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+
+.enter-btn:hover {
+  background: #00ffcc11;
+  box-shadow: 0 0 20px #00ffcc33;
+}
+
+/* "Welcome, [name]. Let's begin." */
+.greeting {
+  font-family: 'Courier New', monospace;
+  font-size: 1.1rem;
+  color: #00ffcc;
+  letter-spacing: 0.2rem;
+  text-align: center;
+  animation: fadeInLine 0.8s ease forwards;
+}
+
+/* Name input wrapper */
+.name-input-area {
+  text-align: center;
+  animation: fadeInLine 0.8s ease forwards;
+}

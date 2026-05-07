@@ -1,0 +1,467 @@
+/* ================================
+   ORACLE - Main Styles
+   A stable mind is more creative
+   than an unstable one
+================================ */
+
+/* === Reset & Base === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #0a0a0f;
+  color: #e0e0e0;
+  font-family: 'Courier New', monospace;
+  min-height: 100vh;
+}
+
+/* === Main Container === */
+.oracle-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* === Header === */
+.oracle-header {
+  text-align: center;
+  margin-bottom: 40px;
+  border-bottom: 1px solid #1e1e2e;
+  padding-bottom: 20px;
+}
+
+/* ORACLE title */
+.oracle-header h1 {
+  font-size: 4rem;
+  font-weight: 900;
+  letter-spacing: 0.5rem;
+  color: #00ffcc;
+  text-shadow: 0 0 30px #00ffcc88;
+}
+
+/* Main tagline */
+.tagline {
+  font-size: 0.9rem;
+  color: #888;
+  margin-top: 8px;
+  font-style: italic;
+}
+
+/* Sub tagline - mental crack */
+.sub-tagline {
+  font-size: 0.75rem;
+  color: #00ffcc55;
+  margin-top: 4px;
+  letter-spacing: 0.2rem;
+  text-transform: uppercase;
+}
+
+/* === Messages Area === */
+.messages {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 30px;
+  min-height: 400px;
+}
+
+/* Welcome screen when no messages yet */
+.welcome {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  color: #444;
+  font-style: italic;
+  text-align: center;
+  padding: 60px 0;
+}
+
+/* Individual message bubble */
+.message {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+  border-radius: 8px;
+  max-width: 85%;
+}
+
+/* User message - right aligned */
+.message.user {
+  background: #1a1a2e;
+  border: 1px solid #2a2a4e;
+  align-self: flex-end;
+}
+
+/* ORACLE message - left aligned with glow */
+.message.oracle {
+  background: #0d1f1a;
+  border: 1px solid #00ffcc33;
+  align-self: flex-start;
+  box-shadow: 0 0 20px #00ffcc11;
+}
+
+/* Role label - YOU or ORACLE */
+.role {
+  font-size: 0.7rem;
+  letter-spacing: 0.2rem;
+  color: #00ffcc;
+  font-weight: bold;
+}
+
+/* Message text */
+.message p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #ccc;
+}
+
+/* Thinking/scanning animation */
+.thinking {
+  color: #00ffcc88 !important;
+  animation: pulse 1.5s infinite;
+}
+
+/* Pulse animation for scanning state */
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+/* === Input Area === */
+.input-area {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-top: 1px solid #1e1e2e;
+  padding-top: 20px;
+}
+
+/* Text input where user talks to ORACLE */
+.input-area textarea {
+  background: #0f0f1a;
+  border: 1px solid #2a2a4e;
+  border-radius: 8px;
+  color: #e0e0e0;
+  font-family: 'Courier New', monospace;
+  font-size: 0.95rem;
+  padding: 16px;
+  resize: none;
+  height: 100px;
+  transition: border-color 0.3s;
+}
+
+/* Textarea focus glow effect */
+.input-area textarea:focus {
+  outline: none;
+  border-color: #00ffcc55;
+  box-shadow: 0 0 15px #00ffcc11;
+}
+
+/* Consult ORACLE button */
+.input-area button {
+  background: #00ffcc11;
+  border: 1px solid #00ffcc55;
+  border-radius: 8px;
+  color: #00ffcc;
+  cursor: pointer;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  letter-spacing: 0.2rem;
+  padding: 14px;
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+
+/* Button hover state */
+.input-area button:hover {
+  background: #00ffcc22;
+  box-shadow: 0 0 20px #00ffcc33;
+}
+
+/* Button disabled state while ORACLE is thinking */
+.input-area button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ================================
+   NEW FEATURE STYLES
+================================ */
+
+/* Scan indicator label above the input during morning scan */
+.scan-indicator {
+  font-size: 0.65rem;
+  letter-spacing: 0.2rem;
+  color: #00ffcc;
+  opacity: 0.7;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* Scan question text — brighter than normal message text */
+.scan-q {
+  color: #00ffcc !important;
+  font-size: 1rem !important;
+}
+
+/* Morning Briefing bubble — slightly brighter border */
+.message.oracle.briefing {
+  border-color: #00ffcc55;
+  box-shadow: 0 0 28px #00ffcc18;
+}
+
+/* Check-in message bubble */
+.message.oracle.checkin {
+  border-color: rgba(245, 166, 35, 0.35);
+}
+
+/* Badge under special messages (MORNING BRIEFING / MID-DAY CHECK-IN) */
+.bubble-badge {
+  margin-top: 8px;
+  font-size: 0.65rem;
+  letter-spacing: 0.2rem;
+  color: #00ffcc;
+  opacity: 0.7;
+}
+
+/* Check-in badge is amber instead of cyan */
+.checkin-tag { color: #f5a623; }
+
+/* Three progress dots during morning scan */
+.scan-dots {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  padding: 4px 0;
+}
+
+.scan-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #2a2a4e;
+  transition: all 0.3s;
+}
+
+.scan-dot.active {
+  background: #00ffcc;
+  box-shadow: 0 0 8px #00ffcc88;
+}
+
+.scan-dot.done {
+  background: #00ffcc;
+  opacity: 0.4;
+}
+
+/* Amber check-in banner */
+.checkin-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(245, 166, 35, 0.07);
+  border: 1px solid rgba(245, 166, 35, 0.3);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.75rem;
+  letter-spacing: 0.1rem;
+  color: #f5a623;
+}
+
+.checkin-btn {
+  background: rgba(245, 166, 35, 0.12);
+  border: 1px solid #f5a623;
+  color: #f5a623;
+  font-family: 'Courier New', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.15rem;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.checkin-btn:hover { background: rgba(245, 166, 35, 0.22); }
+
+.checkin-dismiss {
+  background: transparent;
+  border: none;
+  color: #444;
+  font-family: 'Courier New', monospace;
+  font-size: 0.65rem;
+  cursor: pointer;
+  margin-left: auto;
+  text-transform: uppercase;
+}
+
+.checkin-dismiss:hover { color: #888; }
+
+/* Risk meter — vertical bar fixed to the right edge */
+.risk-meter {
+  position: fixed;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  z-index: 10;
+}
+
+.risk-label {
+  font-family: 'Courier New', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.1rem;
+  font-weight: bold;
+}
+
+.risk-track {
+  width: 5px;
+  height: 110px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 3px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.risk-fill {
+  width: 100%;
+  border-radius: 3px;
+  transition: height 0.6s ease, background 0.6s ease;
+}
+
+.risk-num {
+  font-family: 'Courier New', monospace;
+  font-size: 0.6rem;
+}
+
+/* MEM button — rotated vertically on the left edge */
+.mem-toggle {
+  position: fixed;
+  left: -18px;
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg);
+  background: transparent;
+  border: 1px solid #1e1e2e;
+  color: #00ffcc;
+  font-family: 'Courier New', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.18rem;
+  padding: 5px 14px;
+  cursor: pointer;
+  z-index: 20;
+  border-radius: 0 0 6px 6px;
+  transition: background 0.2s;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.mem-toggle:hover { background: #00ffcc11; }
+
+/* Memory panel — slides in from the left */
+.mem-panel {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 250px;
+  background: #080b12;
+  border-right: 1px solid #1e1e2e;
+  padding: 48px 18px 32px;
+  z-index: 15;
+  transform: translateX(-100%); /* hidden off-screen by default */
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+}
+
+/* When isOpen is true, App.jsx adds 'open' class which slides it in */
+.mem-panel.open { transform: translateX(0); }
+
+.mem-header {
+  font-size: 0.6rem;
+  letter-spacing: 0.25rem;
+  color: #00ffcc;
+  margin-bottom: 18px;
+  border-bottom: 1px solid #1e1e2e;
+  padding-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.mem-empty {
+  font-size: 0.75rem;
+  color: #444;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+.mem-fact {
+  display: flex;
+  gap: 8px;
+  font-size: 0.75rem;
+  color: #ccc;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.mem-dot {
+  color: #00ffcc;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Evening debrief banner — purple to distinguish from amber midday */
+.evening-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(139, 92, 246, 0.07);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.75rem;
+    letter-spacing: 0.1rem;
+    color: #8b5cf6;
+}
+
+.evening-btn {
+    background: rgba(139, 92, 246, 0.12);
+    border: 1px solid #8b5cf6;
+    color: #8b5cf6;
+    font-family: 'Courier New', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15rem;
+    padding: 5px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.evening-btn:hover { background: rgba(139, 92, 246, 0.22); }
+
+.evening-dismiss {
+    background: transparent;
+    border: none;
+    color: #444;
+    font-family: 'Courier New', monospace;
+    font-size: 0.65rem;
+    cursor: pointer;
+    margin-left: auto;
+    text-transform: uppercase;
+}
+
+.evening-dismiss:hover { color: #888; }
+
+/* Purple badge under evening debrief messages */
+.debrief-tag { color: #8b5cf6; }

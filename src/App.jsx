@@ -114,17 +114,20 @@ export default function App() {
   const addMessage = (msg) => setMessages(prev => [...prev, msg])
 
   // handleScanComplete - called by DailyScan after the Morning Briefing
-  // Receives the 3 scan answers and saves them to the memory panel
-  const handleScanComplete = ({ schedule, sleep, concern }) => {
+  // Receives all 5 scan answers and saves them to the memory panel
+  const handleScanComplete = ({ schedule, sleep, concern, energy, physical }) => {
     setScanMode(false)         // switch to normal input
     setScanComplete(true)      // start the check-in countdown
     setLastCheckin(Date.now()) // record when the scan finished
 
-    // Populate the memory panel with the morning scan answers
+    // Populate the memory panel with all 5 morning scan answers
+    // energy and physical are the new health intelligence fields
     setMemoryFacts([
       `Schedule: ${schedule}`,
       `Sleep: ${sleep}`,
-      `Main concern: ${concern}`
+      `Main concern: ${concern}`,
+      `Energy: ${energy}`,
+      `Physical: ${physical}`
     ])
   }
 

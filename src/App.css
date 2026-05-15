@@ -492,21 +492,22 @@ body {
 }
 
 /* Container for the typing lines */
-.intro-lines {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-/* Each individual line as it appears */
 .intro-line {
   font-family: 'Courier New', monospace;
   font-size: 1.1rem;
   color: #00ffcc;
   letter-spacing: 0.1rem;
+  opacity: 0;
   animation: fadeInLine 0.8s ease forwards;
+}
+
+/* Each individual line as it appears */
+.intro-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  text-align: center;
+  margin-bottom: 40px;
 }
 
 /* First line - ORACLE title — bigger */

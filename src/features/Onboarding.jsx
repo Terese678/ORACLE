@@ -1,13 +1,14 @@
 // ------- Onboarding.jsx --------------------------------
 // The first screen a user sees when they open ORACLE.
-// Lines type out one by one, then a name input appears,
-// then ORACLE greets them personally before fading out.
+// All 7 lines are rendered immediately with CSS animation
+// delays — each line fades in 1 second after the last.
+// No interval needed, no StrictMode issues.
 // --------------------------------------------------------
 
-// React hooks - useState for UI state, useEffect for the line animation
+// useState tracks UI state, useEffect runs the input timer
 import { useState, useEffect } from 'react'
 
-// These are the lines ORACLE speaks during the intro sequence
+// The 7 lines ORACLE speaks during the intro sequence
 const INTRO_LINES = [
   "I AM ORACLE.",
   "I see what you cannot.",
@@ -19,35 +20,35 @@ const INTRO_LINES = [
 ]
 
 export default function Onboarding({ onComplete }) {
-  const [visibleLines, setVisibleLines] = useState([])
+  // Controls whether the name input is visible
   const [showInput, setShowInput] = useState(false)
+
+  // The name the user types in
   const [name, setName] = useState('')
+
+  // The personal greeting shown before fading out
   const [greeting, setGreeting] = useState('')
+
+  // True when the screen is fading out into the main app
   const [fading, setFading] = useState(false)
 
+  // Wait for all 7 lines to finish animating (7 seconds + 0.8s fade + 0.6s buffer)
+  // then show the name input
   useEffect(() => {
-    let i = 0
-    const interval = setInterval(() => {
-      if (i < INTRO_LINES.length) {
-        setVisibleLines(prev => [...prev, INTRO_LINES[i]])
-        i++
-      } else {
-        clearInterval(interval)
-        setTimeout(() => setShowInput(true), 600)
-      }
-    }, 1000)
-
-    return () => clearInterval(interval)
+    const timer = setTimeout(() => setShowInput(true), 8200)
+    // Clean up the timer if the component unmounts early
+    return () => clearTimeout(timer)
   }, [])
 
   const handleEnter = () => {
+    // Do nothing if the user hasn't typed a name
     if (!name.trim()) return
 
-    // ORACLE greets the user personally
+    // Show the personal greeting
     setGreeting(`Welcome, ${name}. Let's begin.`)
     setShowInput(false)
 
-    // Fade out after greeting
+    // After 1.8 seconds start fading out, then hand off to the main app
     setTimeout(() => {
       setFading(true)
       setTimeout(() => onComplete(name), 1000)
@@ -55,14 +56,23 @@ export default function Onboarding({ onComplete }) {
   }
 
   return (
+    // Add fade-out class when transitioning into the main app
     <div className={`onboarding ${fading ? 'fade-out' : ''}`}>
+
       <div className="intro-lines">
-        {visibleLines.map((line, i) => (
-          <p key={i} className="intro-line">{line}</p>
+        {/* Render all lines at once — CSS animationDelay staggers their appearance */}
+        {INTRO_LINES.map((line, i) => (
+          <p
+            key={i}
+            className="intro-line"
+            style={{ animationDelay: `${i}s` }}
+          >
+            {line}
+          </p>
         ))}
       </div>
 
-      {/* Name input - appears after all lines are shown */}
+      {/* Name input — appears after all lines have faded in */}
       {showInput && (
         <div className="name-input-area">
           <p className="name-prompt">What shall I call you?</p>
@@ -81,10 +91,9 @@ export default function Onboarding({ onComplete }) {
         </div>
       )}
 
-      {/* Personal greeting before fade out */}
-      {greeting && (
-        <p className="greeting">{greeting}</p>
-      )}
+      {/* Personal greeting shown before the screen fades out */}
+      {greeting && <p className="greeting">{greeting}</p>}
+
     </div>
   )
 }

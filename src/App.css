@@ -305,7 +305,7 @@ body {
 
 .checkin-dismiss:hover { color: #888; }
 
-/* Risk meter — vertical bar fixed to the right edge */
+/* Risk meter - vertical bar fixed to the right edge */
 .risk-meter {
   position: fixed;
   right: 18px;
@@ -347,7 +347,7 @@ body {
   font-size: 0.6rem;
 }
 
-/* MEM button — rotated vertically on the left edge */
+/* MEM button - rotated vertically on the left edge */
 .mem-toggle {
   position: fixed;
   left: -18px;
@@ -370,7 +370,7 @@ body {
 
 .mem-toggle:hover { background: #00ffcc11; }
 
-/* Memory panel — slides in from the left */
+/* Memory panel - slides in from the left */
 .mem-panel {
   position: fixed;
   left: 0;
@@ -421,7 +421,7 @@ body {
   margin-top: 2px;
 }
 
-/* Evening debrief banner — purple to distinguish from amber midday */
+/* Evening debrief banner - purple to distinguish from amber midday */
 .evening-banner {
     display: flex;
     align-items: center;

@@ -465,3 +465,114 @@ body {
 
 /* Purple badge under evening debrief messages */
 .debrief-tag { color: #8b5cf6; }
+
+/* === Onboarding Screen === */
+.onboarding {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #0a0a0f;
+  padding: 40px 20px;
+}
+
+/* Container for the typing lines */
+.intro-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* Each individual line as it appears */
+.intro-line {
+  font-family: 'Courier New', monospace;
+  font-size: 1.1rem;
+  color: #00ffcc;
+  letter-spacing: 0.1rem;
+  opacity: 0;
+  animation: fadeInLine 0.8s ease forwards;
+}
+
+/* First line - ORACLE title — bigger */
+.intro-line:first-child {
+  font-size: 1.8rem;
+  font-weight: 900;
+  letter-spacing: 0.5rem;
+}
+
+@keyframes fadeInLine {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.name-input-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.name-prompt {
+  font-size: 0.85rem;
+  color: #00ffcc;
+  letter-spacing: 0.2rem;
+  text-transform: uppercase;
+}
+
+.name-input {
+  background: #0f0f1a;
+  border: 1px solid #00ffcc55;
+  border-radius: 6px;
+  color: #e0e0e0;
+  font-family: 'Courier New', monospace;
+  font-size: 0.95rem;
+  padding: 12px 20px;
+  text-align: center;
+  width: 280px;
+  outline: none;
+}
+
+.name-input:focus {
+  border-color: #00ffcc;
+  box-shadow: 0 0 15px #00ffcc22;
+}
+
+.enter-btn {
+  background: #00ffcc11;
+  border: 1px solid #00ffcc55;
+  border-radius: 6px;
+  color: #00ffcc;
+  cursor: pointer;
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.25rem;
+  padding: 12px 30px;
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+
+.enter-btn:hover {
+  background: #00ffcc22;
+  box-shadow: 0 0 20px #00ffcc33;
+}
+
+.greeting {
+  color: #00ffcc;
+  font-size: 1rem;
+  letter-spacing: 0.15rem;
+  margin-top: 30px;
+  text-align: center;
+}
+
+.fade-out {
+  animation: fadeOut 1s ease forwards;
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}

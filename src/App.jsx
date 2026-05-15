@@ -30,6 +30,8 @@ import RiskMeter, { calculateRiskScore } from './features/RiskMeter'
 // triggerEveningDebrief = fires the evening ORACLE debrief message
 import CheckInBanner, { useCheckinTimer, triggerCheckin, triggerEveningDebrief, EveningBanner } from './features/CheckIn'
 
+import Onboarding from './features/Onboarding'
+
 export default function App() {
 
   // ---- Core state ---------------------------------------------
@@ -80,6 +82,12 @@ export default function App() {
   // This is what starts the 3-hour check-in countdown
   const [scanComplete, setScanComplete] = useState(false)
 
+  // True once the user has completed the onboarding screen
+  const [onboardingDone, setOnboardingDone] = useState(false)
+
+  // The name the user entered during onboarding - used to personalise ORACLE
+  const [userName, setUserName] = useState('')
+
   // A ref attached to an invisible div at the bottom of messages
   // We scroll this into view every time a new message arrives
   const messagesEndRef = useRef(null)
@@ -106,17 +114,20 @@ export default function App() {
   const addMessage = (msg) => setMessages(prev => [...prev, msg])
 
   // handleScanComplete - called by DailyScan after the Morning Briefing
-  // Receives the 3 scan answers and saves them to the memory panel
-  const handleScanComplete = ({ schedule, sleep, concern }) => {
+  // Receives all 5 scan answers and saves them to the memory panel
+  const handleScanComplete = ({ schedule, sleep, concern, energy, physical }) => {
     setScanMode(false)         // switch to normal input
     setScanComplete(true)      // start the check-in countdown
     setLastCheckin(Date.now()) // record when the scan finished
 
-    // Populate the memory panel with the morning scan answers
+    // Populate the memory panel with all 5 morning scan answers
+    // energy and physical are the new health intelligence fields
     setMemoryFacts([
       `Schedule: ${schedule}`,
       `Sleep: ${sleep}`,
-      `Main concern: ${concern}`
+      `Main concern: ${concern}`,
+      `Energy: ${energy}`,
+      `Physical: ${physical}`
     ])
   }
 
@@ -174,6 +185,16 @@ export default function App() {
       .replace(/\n/g, '<br/>')
 
   // ------ RENDER --------------------------------------------
+  if (!onboardingDone) {
+    return (
+      <Onboarding
+        onComplete={(name) => {
+          setUserName(name)
+          setOnboardingDone(true)
+        }}
+      />
+    )
+  }
   return (
     // oracle-container is the original CSS class - unchanged
     <div className="oracle-container">

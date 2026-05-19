@@ -50,9 +50,10 @@ export default function App() {
 
   // --------- Scan state ------------------------------------------------
 
-  // Persist scan mode so refreshing doesn't restart the morning scan
+  // Check if scan was done TODAY — if yesterday, restart the scan
   const [scanMode, setScanMode] = useState(() => {
-    return localStorage.getItem('oracle_scan_done') ? false : true
+    const saved = localStorage.getItem('oracle_scan_done')
+    return saved === new Date().toDateString() ? false : true
   })
 
   // Tracks which of the 3 scan questions we are on (0, 1, or 2)
@@ -82,9 +83,10 @@ export default function App() {
     return saved ? parseInt(saved) : null
   })
 
-  // Persist scan complete so the check-in timer resumes after refresh
+  // Scan is only complete if it was done today
   const [scanComplete, setScanComplete] = useState(() => {
-    return localStorage.getItem('oracle_scan_done') === 'true'
+    const saved = localStorage.getItem('oracle_scan_done')
+    return saved === new Date().toDateString()
   })
 
   // True once the user has completed the onboarding screen
@@ -103,6 +105,24 @@ export default function App() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, loading])
+
+  // On app load, check if check-in or evening debrief is already due
+  // This handles the case where the tab was closed and reopened
+  useEffect(() => {
+    if (!scanComplete) return
+
+    const now = Date.now()
+    const threeHours = 3 * 60 * 60 * 1000
+    const eightHours = 8 * 60 * 60 * 1000
+    const saved = localStorage.getItem('oracle_last_checkin')
+    const last = saved ? parseInt(saved) : null
+
+    if (!last || now - last > eightHours) {
+      setEveningDue(true)
+    } else if (now - last > threeHours) {
+      setCheckinDue(true)
+    }
+  }, [scanComplete])
 
   // Request browser notification permission when the app loads
   // This enables ORACLE to notify the user even when the tab is not in focus
@@ -132,8 +152,9 @@ export default function App() {
     setScanMode(false)         // switch to normal input
     setScanComplete(true)      // start the check-in countdown
     setLastCheckin(Date.now()) // record when the scan finished
-    localStorage.setItem('oracle_scan_done', 'true')           // persist scan completion across refreshes
+    localStorage.setItem('oracle_scan_done', new Date().toDateString()) // Reads the device's system clock in real time
     localStorage.setItem('oracle_last_checkin', Date.now())    // persist check-in time across refreshes
+    localStorage.removeItem('oracle_thread_id') // This clears yesterday's conversation thread so ORACLE starts fresh every morning.
 
     // Populate the memory panel with all 5 morning scan answers
     // energy and physical are the new health intelligence fields

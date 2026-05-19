@@ -81,3 +81,39 @@ export async function askOracle(content, threadId, systemPrompt = PROMPTS.defaul
   // Return the full data object — callers pull out data.content and data.thread_id
   return data
 }
+
+// speakText - uses the browser's built-in speech synthesis to read text aloud.
+// Called after the Morning Briefing so ORACLE literally speaks to the user.
+// No API needed — works instantly in any modern browser.
+// text = the string ORACLE will read aloud
+export function speakText(text) {
+  try {
+    // Cancel any speech already playing before starting new one
+    window.speechSynthesis.cancel()
+
+    // Create a new speech utterance from the text
+    const utterance = new SpeechSynthesisUtterance(text)
+
+    // Voice settings — deep, slow, and authoritative to match ORACLE's identity
+    utterance.rate = 0.85      // slightly slower than normal — calm and deliberate
+    utterance.pitch = 0.7      // lower pitch — authoritative guardian tone
+    utterance.volume = 1       // full volume
+
+    // Use the browser's default voice
+    // Modern browsers have multiple voices — this picks the best available
+    const voices = window.speechSynthesis.getVoices()
+    const preferredVoice = voices.find(v =>
+      v.name.includes('Google UK English Male') ||
+      v.name.includes('Daniel') ||
+      v.name.includes('Alex')
+    )
+    if (preferredVoice) utterance.voice = preferredVoice
+
+    // Speak the text
+    window.speechSynthesis.speak(utterance)
+
+  } catch (err) {
+    // If voice fails, ORACLE still works — silently skips audio
+    console.error('ORACLE voice error:', err)
+  }
+}

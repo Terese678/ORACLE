@@ -45,14 +45,15 @@ export default function App() {
   // True while we are waiting for ORACLE to respond
   const [loading, setLoading] = useState(false)
 
-  // The Backboard thread ID — keeps ORACLE's memory alive across messages
-  const [threadId, setThreadId] = useState(null)
+  // Persist thread ID in localStorage so ORACLE remembers the conversation across refreshes
+  const [threadId, setThreadId] = useState(() => localStorage.getItem('oracle_thread_id') || null)
 
   // --------- Scan state ------------------------------------------------
 
-  // True = morning scan is active (show scan input)
-  // False = scan is done (show normal input)
-  const [scanMode, setScanMode] = useState(true)
+  // Persist scan mode so refreshing doesn't restart the morning scan
+  const [scanMode, setScanMode] = useState(() => {
+    return localStorage.getItem('oracle_scan_done') ? false : true
+  })
 
   // Tracks which of the 3 scan questions we are on (0, 1, or 2)
   // Used to highlight the correct progress dot
@@ -75,12 +76,16 @@ export default function App() {
   // True = show the evening debrief banner after 8 hours
   const [eveningDue, setEveningDue] = useState(false)
 
-  // Timestamp of the last check-in (used to calculate 3 hours)
-  const [lastCheckin, setLastCheckin] = useState(null)
+  // Persist last check-in time so the timer doesn't restart from zero on refresh
+  const [lastCheckin, setLastCheckin] = useState(() => {
+    const saved = localStorage.getItem('oracle_last_checkin')
+    return saved ? parseInt(saved) : null
+  })
 
-  // True once the morning briefing has been delivered
-  // This is what starts the 3-hour check-in countdown
-  const [scanComplete, setScanComplete] = useState(false)
+  // Persist scan complete so the check-in timer resumes after refresh
+  const [scanComplete, setScanComplete] = useState(() => {
+    return localStorage.getItem('oracle_scan_done') === 'true'
+  })
 
   // True once the user has completed the onboarding screen
   const [onboardingDone, setOnboardingDone] = useState(false)
@@ -98,6 +103,14 @@ export default function App() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, loading])
+
+  // Request browser notification permission when the app loads
+  // This enables ORACLE to notify the user even when the tab is not in focus
+  useEffect(() => {
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission()
+    }
+  }, [])
 
   // Recalculate the risk score every time the messages list changes
   useEffect(() => {
@@ -119,6 +132,8 @@ export default function App() {
     setScanMode(false)         // switch to normal input
     setScanComplete(true)      // start the check-in countdown
     setLastCheckin(Date.now()) // record when the scan finished
+    localStorage.setItem('oracle_scan_done', 'true')           // persist scan completion across refreshes
+    localStorage.setItem('oracle_last_checkin', Date.now())    // persist check-in time across refreshes
 
     // Populate the memory panel with all 5 morning scan answers
     // energy and physical are the new health intelligence fields
@@ -148,6 +163,8 @@ export default function App() {
 
       // Save the thread ID so the next message stays in the same conversation
       if (data.thread_id) setThreadId(data.thread_id)
+
+      if (data.thread_id) localStorage.setItem('oracle_thread_id', data.thread_id)
 
       // Add ORACLE's reply to the chat
       addMessage({ role: 'oracle', content: data.content || 'ORACLE is recalibrating.' })

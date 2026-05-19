@@ -17,7 +17,7 @@
 // --------------------------------------------------------------
 
 import { useState } from 'react'
-import { askOracle, PROMPTS } from '../api/oracle'
+import { askOracle, PROMPTS, speakText } from '../api/oracle'
 import { saveHealthEntry, detectHealthPatterns } from './HealthTracker'
 
 // The 5 questions ORACLE asks in order
@@ -121,6 +121,7 @@ Deliver my Morning Briefing. Factor in my energy and physical state alongside my
       const data = await askOracle(briefingRequest, threadId, PROMPTS.morningBriefing)
 
       if (data.thread_id) setThreadId(data.thread_id)
+      if (data.thread_id) localStorage.setItem('oracle_thread_id', data.thread_id)
 
       // Show ORACLE's briefing as a special 'briefing' type message
       onMessage({
@@ -128,6 +129,9 @@ Deliver my Morning Briefing. Factor in my energy and physical state alongside my
         content: data.content || 'ORACLE is calibrating your briefing.',
         type: 'briefing'
       })
+
+      // ORACLE speaks the Morning Briefing aloud after delivering it
+      speakText(data.content)
 
       // Pass all 5 answers up to App.jsx for the Memory Panel
       onComplete({

@@ -10,7 +10,7 @@
 // -------------------------------------------------------------
 
 import { useEffect } from 'react'
-import { askOracle, PROMPTS } from '../api/oracle'
+import { askOracle, PROMPTS, speakText } from '../api/oracle'
 
 // useCheckinTimer - custom hook used in App.jsx.
 // Runs two timers:
@@ -30,6 +30,24 @@ export function useCheckinTimer(scanComplete, lastCheckin, setCheckinDue, setEve
             // Midday check-in - triggers after 3 hours
             if (!lastCheckin || now - lastCheckin > threeHours) {
                 setCheckinDue(true)
+                // Fire a browser notification so the user knows even if tab is not in focus
+                if ('Notification' in window && Notification.permission === 'granted') {
+                    new Notification('ORACLE', {
+                        body: '⬡ Your mid-day check-in is ready. ORACLE is watching.'
+                    })
+                    // Play a short beep to alert the user audibly
+                    const ctx = new AudioContext()
+                    const oscillator = ctx.createOscillator()
+                    const gain = ctx.createGain()
+                    oscillator.connect(gain)
+                    gain.connect(ctx.destination)
+                    oscillator.frequency.value = 440  // A4 note — clean and noticeable
+                    oscillator.type = 'sine'
+                    gain.gain.setValueAtTime(0.3, ctx.currentTime)
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1)
+                    oscillator.start(ctx.currentTime)
+                    oscillator.stop(ctx.currentTime + 1)
+                }
             }
 
             // Evening debrief - triggers after 8 hours
@@ -70,6 +88,10 @@ export async function triggerCheckin({
             content: data.content || 'How are you holding up?',
             type: 'checkin'  // App.jsx uses this to show the ⬡ MID-DAY CHECK-IN badge
         })
+
+        // ORACLE speaks the check-in message aloud
+        speakText(data.content || 'How are you holding up?')
+
     } catch (err) {
         console.error('Check-in error:', err)
     }
@@ -98,12 +120,16 @@ export async function triggerEveningDebrief({
 
         if (data.thread_id) setThreadId(data.thread_id)
 
-        // Add ORACLE's debrief as a special 'debrief' type message
+        // ORACLE's debrief a special 'debrief' type message
         onMessage({
             role: 'oracle',
             content: data.content || 'How did today unfold?',
             type: 'debrief'  // App.jsx uses this to show the ◈ EVENING DEBRIEF badge
         })
+
+        // ORACLE speaks the evening debrief aloud
+        speakText(data.content || 'How did today unfold?')
+
     } catch (err) {
         console.error('Evening debrief error:', err)
     }

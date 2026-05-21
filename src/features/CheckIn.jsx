@@ -23,7 +23,7 @@ export function useCheckinTimer(scanComplete, lastCheckin, setCheckinDue, setEve
 
         // Check every 60 seconds whether a check-in is due
         const interval = setInterval(() => {
-            const threeHours = 10 * 1000
+            const threeHours =  3 * 60 * 60 * 1000
             const eightHours = 8 * 60 * 60 * 1000  // 8 hours converted to milliseconds
             const now = Date.now()
 

@@ -1,0 +1,165 @@
+/* ====================================================
+   FaceCapture.css — Morning face scan screen.
+   Appears after the 5-question scan. Dark, intimate,
+   ORACLE energy. Not clinical — ceremonial.
+   ==================================================== */
+
+/* ── Container ───────────────────────────────────── */
+.face-capture-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  max-width: 480px;
+  margin: 0 auto;
+  animation: fadeIn 0.6s ease;
+}
+
+/* ── Header ──────────────────────────────────────── */
+.face-capture-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.face-icon {
+  font-size: 2rem;
+  color: #c9a84c;
+  display: block;
+  margin-bottom: 16px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.face-capture-header h2 {
+  font-family: 'Courier New', monospace;
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: #e8e8e8;
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+}
+
+.face-capture-header p {
+  color: #9a9a9a;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.face-sub {
+  font-size: 0.78rem !important;
+  color: #5a5a5a !important;
+  font-style: italic;
+}
+
+/* ── Upload Zone ─────────────────────────────────── */
+.face-zone {
+  width: 100%;
+  max-width: 320px;
+  height: 320px;
+  border: 1px dashed rgba(201, 168, 76, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  margin-bottom: 32px;
+  background: rgba(201, 168, 76, 0.02);
+}
+
+.face-zone:hover {
+  border-color: rgba(201, 168, 76, 0.6);
+  background: rgba(201, 168, 76, 0.05);
+}
+
+.face-zone.has-image {
+  border-style: solid;
+  border-color: rgba(201, 168, 76, 0.4);
+}
+
+/* ── Face Prompt ─────────────────────────────────── */
+.face-prompt {
+  text-align: center;
+  color: #5a5a5a;
+}
+
+.face-prompt span {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.face-prompt p {
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+}
+
+/* ── Face Preview ────────────────────────────────── */
+.face-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* ── Action Buttons ──────────────────────────────── */
+.face-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.face-submit {
+  background: linear-gradient(135deg, #8a6c2a, #c9a84c);
+  border: none;
+  border-radius: 8px;
+  color: #0a0a0a;
+  cursor: pointer;
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  padding: 16px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.face-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(201, 168, 76, 0.3);
+}
+
+.face-skip {
+  background: none;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  color: #5a5a5a;
+  cursor: pointer;
+  font-family: 'Courier New', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  padding: 12px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.face-skip:hover {
+  border-color: #5a5a5a;
+  color: #9a9a9a;
+}
+
+/* ── Animations ──────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}

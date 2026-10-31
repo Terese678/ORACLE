@@ -65,7 +65,7 @@ Tomorrow you will be more accurate because of tonight.`,
 // threadId     = the conversation ID so ORACLE remembers past messages
 // systemPrompt = which ORACLE personality to use (defaults to normal)
 export async function askOracle(content, threadId, systemPrompt = PROMPTS.default) {
-  const response = await fetch(`${BASE_URL}/threads/messages`, {
+  const response = await fetch(`${BASE_URL}?path=threads/messages`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -88,7 +88,7 @@ export async function askOracle(content, threadId, systemPrompt = PROMPTS.defaul
 // scanSummary = string summarizing all 5 morning scan answers
 // threadId    = existing conversation thread to maintain context
 export async function askOracleWithImage(imageBase64, scanSummary, threadId) {
-  const response = await fetch(`${BASE_URL}/threads/messages`, {
+  const response = await fetch(`${BASE_URL}?path=threads/messages`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -111,7 +111,7 @@ export async function askOracleWithImage(imageBase64, scanSummary, threadId) {
 // Falls back to browser synthesis if the API call fails.
 export async function speakText(text) {
   try {
-    const response = await fetch(`${BASE_URL}/tts`, {
+    const response = await fetch(`${BASE_URL}?path=tts`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

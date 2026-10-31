@@ -1,9 +1,9 @@
-// ------ api/backboard/[...path].js ----------------------------
+// ------ api/backboard.js ---------------------------------------
 // Vercel serverless function. The browser calls
-// /api/backboard/<endpoint> and this file adds the secret key
+// /api/backboard?path=<endpoint> and this file adds the secret key
 // before forwarding to Backboard. The key only exists on the
 // server, so visitors can never see it in their browser.
-// -------------------------------------------------------------
+// ---------------------------------------------------------------
 
 const BACKBOARD = 'https://app.backboard.io/api'
 
@@ -13,8 +13,7 @@ const ALLOWED_PATHS = ['threads/messages', 'tts']
 /* Only these models can be requested */
 const ALLOWED_MODELS = ['gpt-4o-mini', 'gpt-4o']
 
-// Websites allowed to call this function.
-// Vercel preview URLs are not listed, so previews will be blocked.
+// Websites allowed to call this function
 const ALLOWED_ORIGINS = ['https://oracle-six-snowy.vercel.app']
 
 export default async function handler(req, res) {
@@ -29,18 +28,15 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'POST only' })
   }
 
-  // /api/backboard/threads/messages becomes "threads/messages"
-  const path = [].concat(req.query.path || []).join('/')
+  // /api/backboard?path=threads/messages gives "threads/messages"
+  const path = String(req.query.path || '')
   if (!ALLOWED_PATHS.includes(path)) {
     return res.status(404).json({ error: 'Not found' })
   }
 
   const body = req.body || {}
 
-  // Chat calls must name one of the allowed models.
-  // A request with no model_name is rejected too, so Backboard
-  // can never fall back to a default (more expensive) model.
-  // TTS has no model_name field, so it is not checked here.
+  // Chat calls must name one of the allowed models
   if (path === 'threads/messages' && !ALLOWED_MODELS.includes(body.model_name)) {
     return res.status(400).json({ error: 'Model not allowed' })
   }

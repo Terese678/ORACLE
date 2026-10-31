@@ -9,22 +9,39 @@
 import { useState, useRef } from 'react'
 import './FaceCapture.css'
 
+/* ── Shrink the photo, then convert to base64 ───────────
+   Phone photos are several MB. The server function accepts
+   about 4.5MB per request, so we resize to 1024px first. */
+const resizeToBase64 = (file) =>
+  new Promise((resolve) => {
+    const img = new Image()
+    img.onerror = () => resolve(null)
+    img.onload = () => {
+      // scale = 1 means the photo is already small, leave it alone
+      const scale  = Math.min(1, 1024 / Math.max(img.width, img.height))
+      const canvas = document.createElement('canvas')
+      canvas.width  = Math.round(img.width * scale)
+      canvas.height = Math.round(img.height * scale)
+      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height)
+      URL.revokeObjectURL(img.src)
+      resolve(canvas.toDataURL('image/jpeg', 0.8).split(',')[1])
+    }
+    img.src = URL.createObjectURL(file)
+  })
+
 export default function FaceCapture({ onCapture, onSkip }) {
 
   const [preview, setPreview]   = useState(null)
   const [image, setImage]       = useState(null)
   const fileInputRef            = useRef(null)
 
-  /* ── Convert image to base64 ─────────────────── */
-  const handleSelect = (e) => {
+  /* ── Show a preview and prepare the base64 image ─ */
+  const handleSelect = async (e) => {
     const file = e.target.files[0]
     if (!file) return
 
     setPreview(URL.createObjectURL(file))
-
-    const reader = new FileReader()
-    reader.onload = () => setImage(reader.result.split(',')[1])
-    reader.readAsDataURL(file)
+    setImage(await resizeToBase64(file))
   }
 
   /* ── Render ──────────────────────────────────── */
